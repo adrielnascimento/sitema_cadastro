@@ -24,6 +24,7 @@ class Cadastro:
                     senha = input('senha: ')
                     self.cadastrar(nome, email, cpf, senha)
                 return False
+            
         except sqlite3.Error as erro: 
             print(f"ERRO {erro} ao realizar a consulta")
         return False
@@ -31,12 +32,12 @@ class Cadastro:
     # cadastrar
     def cadastrar(self, nome, email, cpf, senha):
         try:
-            if not self.verificar_cadastro(cpf): 
+            if self.verificar_cadastro(cpf): 
+                print('USUARIO JA EXISTENTE!')
+            else: 
                 cursor.execute("INSERT INTO cadastro VALUES (?, ?, ?, ?)", (cpf, nome, email, senha))
                 print(f"Usuario {nome} cadastrado com sucesso.")
                 banco.commit()
-            else: 
-                print('USUARIO JA EXISTENTE!')
 
         except sqlite3.Error as erro:
             print(f'ERRO {erro} ao inserir os dados')
